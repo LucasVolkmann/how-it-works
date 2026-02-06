@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:16
+    container_name: how-it-works-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: how_it_works
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - how-it-works-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: how-it-works-app
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "3001:3001"
+      - "9229:9229"
+    environment:
+      PORT: 3001
+      NODE_ENV: development
+
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: admin
+      DB_PASSWORD: admin
+      DB_NAME: how_it_works
+
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+    command: >
+      sh -c "npm install &&
+             npx nodemon --inspect=0.0.0.0:9229"
+
+    networks:
+      - how-it-works-network
+
+volumes:
+  postgres_data:
+
+networks:
+  how-it-works-network:
+    driver: bridge

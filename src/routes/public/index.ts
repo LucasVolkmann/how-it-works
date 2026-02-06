@@ -1,8 +1,8 @@
 import { Router } from "express";
-import utilRoutes from "./utils/index.js";
+import utilsRouter from "./utils/index.js";
 
 const publicRoutes = Router();
 
-publicRoutes.use(utilRoutes);
+publicRoutes.use(utilsRouter);
 
 export default publicRoutes;

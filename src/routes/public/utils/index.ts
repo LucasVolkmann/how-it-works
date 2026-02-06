@@ -2,9 +2,9 @@ import { Router } from "express";
 import healthRouter from "./health.js";
 import { routeNotFound } from "./notFound.js";
 
-const utilRoutes = Router();
+const utilsRouter = Router();
 
-utilRoutes.use(healthRouter);
-utilRoutes.use(routeNotFound);
+utilsRouter.use(healthRouter);
+utilsRouter.use(routeNotFound);
 
-export default utilRoutes;
+export default utilsRouter;
