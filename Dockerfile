@@ -14,4 +14,4 @@ RUN npm install --only=production
 COPY --from=build /usr/src/app/dist ./dist
 
 EXPOSE 3001
-CMD ["node", "dist/server.js"]
+CMD ["node", "dist/server.bootstrap.js"]
