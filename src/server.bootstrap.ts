@@ -1,33 +1,25 @@
-import http from "http";
 import app from "./app.config.js";
 import { env } from "./config/env.config.js";
 import "reflect-metadata";
 import { AppDataSource } from "./config/data-source.config.js";
 
-export class Server {
+async function start() {
 
-    private app;
-    private port: number;
-    private httpServer: http.Server;
-
-  constructor() {
-    this.port = env.port;
-    this.app = app.getInstance();
-    this.httpServer = http.createServer(this.app);
-  }
-
-  async start() {
+  try {
+    const server = app.getInstance();
+    const port = env.port;
+  
     await AppDataSource.initialize();
-
-    this.httpServer.listen(this.port, () => {
-      console.log(`API running on port ${this.port}`);
+  
+    server.listen(port, () => {
+      console.log(`API running on port ${port}`);
     });
+  } catch (error) {
+    console.log(`Error while launching app:`, error)
 
-    this.httpServer.on("error", (error) => {
-      console.error("Server error:", error);
-      process.exit(1);
-    });
+    AppDataSource.destroy();
+    process.exit(1);
   }
 }
 
-new Server().start();
+start();
