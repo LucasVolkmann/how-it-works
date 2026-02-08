@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from 'express';
-import { verifyToken } from '../utils/jwt.js';
+import { verifyToken } from '../utils/jwt.utils.js';
 import createHttpError from 'http-errors';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
