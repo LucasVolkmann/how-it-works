@@ -1,5 +1,5 @@
-import { DefaultNamingStrategy, Table, type NamingStrategyInterface } from "typeorm";
-import { snakeCase } from "typeorm/util/StringUtils.js";
+import { DefaultNamingStrategy, Table, type NamingStrategyInterface } from 'typeorm';
+import { snakeCase } from 'typeorm/util/StringUtils.js';
 
 export class SnakeNamingStrategy
   extends DefaultNamingStrategy
@@ -12,9 +12,9 @@ export class SnakeNamingStrategy
   columnName(
     propertyName: string,
     customName: string | undefined,
-    embeddedPrefixes: string[]
+    embeddedPrefixes: string[],
   ): string {
-    const fullName = embeddedPrefixes.concat(customName ?? propertyName).join("_");
+    const fullName = embeddedPrefixes.concat(customName ?? propertyName).join('_');
     return snakeCase(fullName);
   }
 
@@ -29,7 +29,7 @@ export class SnakeNamingStrategy
   joinTableName(
     firstTableName: string,
     secondTableName: string,
-    firstPropertyName: string
+    firstPropertyName: string,
   ): string {
     return snakeCase(`${firstTableName}_${firstPropertyName}_${secondTableName}`);
   }
@@ -37,13 +37,13 @@ export class SnakeNamingStrategy
   joinTableColumnName(
     tableName: string,
     propertyName: string,
-    columnName?: string
+    columnName?: string,
   ): string {
     return snakeCase(`${tableName}_${columnName ?? propertyName}`);
   }
 
   getTableName(tableOrName: string | Table): string {
-    if (typeof tableOrName === "string") {
+    if (typeof tableOrName === 'string') {
       return tableOrName;
     }
     return tableOrName.name;
@@ -51,26 +51,29 @@ export class SnakeNamingStrategy
 
   primaryKeyName(tableOrName: string | Table, columnNames: string[]): string {
     const tableName = this.getTableName(tableOrName);
-    const base = `${tableName}_${columnNames.join("_")}_pk`;
+    const base = `${tableName}_${columnNames.join('_')}_pk`;
     const result = snakeCase(base);
     return result;
   }
 
   uniqueConstraintName(tableOrName: string | Table, columnNames: string[]): string {
     const tableName = this.getTableName(tableOrName);
-    const base = `${tableName}_${columnNames.join("_")}_uk`;
+    const base = `${tableName}_${columnNames.join('_')}_uk`;
     return snakeCase(base);
   }
 
-  relationConstraintName(tableOrName: string | Table, columnNames: string[]): string {
+  relationConstraintName(
+    tableOrName: string | Table,
+    columnNames: string[],
+  ): string {
     const tableName = this.getTableName(tableOrName);
-    const base = `${tableName}_${columnNames.join("_")}_fk`;
+    const base = `${tableName}_${columnNames.join('_')}_fk`;
     return snakeCase(base);
   }
 
   indexName(tableOrName: string | Table, columnNames: string[]): string {
     const tableName = this.getTableName(tableOrName);
-    const base = `${tableName}_${columnNames.join("_")}_idx`;
+    const base = `${tableName}_${columnNames.join('_')}_idx`;
     return snakeCase(base);
   }
 }

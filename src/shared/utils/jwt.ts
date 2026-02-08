@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
-import { env } from "../../config/env.config.js";
+import jwt from 'jsonwebtoken';
+import { env } from '../../config/env.config.js';
 
 export interface JwtPayload {
   userId: string;

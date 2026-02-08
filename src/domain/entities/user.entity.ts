@@ -1,15 +1,10 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  OneToMany,
-} from "typeorm";
-import { Post } from "./post.entity.js";
-import { BaseEntity } from "./base.entity.js";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Post } from './post.entity.js';
+import { BaseEntity } from './base.entity.js';
 
-@Entity("users")
+@Entity('users')
 export class User extends BaseEntity {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id!: string;
 
   @Column({ unique: true })

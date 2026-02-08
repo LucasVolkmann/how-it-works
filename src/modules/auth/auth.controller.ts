@@ -1,5 +1,5 @@
-import type { Request, Response } from "express";
-import { AuthService } from "./auth.service.js";
+import type { Request, Response } from 'express';
+import { AuthService } from './auth.service.js';
 
 const authService = new AuthService();
 
