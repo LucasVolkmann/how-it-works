@@ -1,29 +1,34 @@
 import dotenv from "dotenv";
+import type { IDBEnv } from "../types/environment/db-env.interface.js";
+import type { NodeEnvType } from "../types/environment/node-env.type.js";
+import type { IJWTEnv } from "../types/environment/jwt-env.interface.js";
+import { isExpiresInValue } from "../types/guards/is-expires-in.guard.js";
 
 dotenv.config();
-
-type NodeEnvType = "development" | "production" | "test";
-
-interface IDB {
-  host: string,
-  port: number,
-  user: string,
-  password: string,
-  database: string,
-}
 
 interface IEnv {
   nodeEnv: NodeEnvType,
   port: number,
-  db: IDB
+  db: IDBEnv
+  bcryptSaltRounds: number
+  jwt: IJWTEnv
 }
 
-function required(key: string) {
+function required<T extends string = string>(
+  key: string,
+  validator?: (value: string) => value is T
+): T {
   const value = process.env[key];
+
   if (typeof value === "undefined") {
     throw new Error(`Missing required environment variable: ${key}`);
   }
-  return value;
+
+  if (validator && !validator(value)) {
+    throw new Error(`Invalid environment variable: '${key}=${value}'`);
+  }
+
+  return value as T;
 }
 
 export const env: IEnv = {
@@ -37,4 +42,11 @@ export const env: IEnv = {
     password: required("DB_PASSWORD"),
     database: required("DB_NAME"),
   },
+
+  bcryptSaltRounds: parseInt(required("BCRYPT_SALT_ROUNDS")),
+
+  jwt: {
+    expiresIn: required("JWT_EXPIRES_IN", isExpiresInValue),
+    secret: required("JWT_SECRET")
+  }
 };
