@@ -26,6 +26,7 @@
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "http-errors": "^2.0.1",
+    "http-status-codes": "^2.3.0",
     "morgan": "^1.10.1",
     "pg": "^8.18.0",
     "reflect-metadata": "^0.2.2",
