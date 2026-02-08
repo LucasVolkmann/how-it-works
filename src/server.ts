@@ -1,6 +1,8 @@
 import http from "http";
 import app from "./app.js";
 import { env } from "./config/env.js";
+import "reflect-metadata";
+import { AppDataSource } from "./config/data-source.js";
 
 export class Server {
 
@@ -14,7 +16,9 @@ export class Server {
     this.httpServer = http.createServer(this.app);
   }
 
-  start() {
+  async start() {
+    await AppDataSource.initialize();
+
     this.httpServer.listen(this.port, () => {
       console.log(`API running on port ${this.port}`);
     });
