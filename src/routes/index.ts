@@ -1,13 +1,14 @@
 import { Router } from "express";
-import { routeNotFound } from "../shared/middlewares/not-found.middleware.js";
-
+import authRouter from "../modules/auth/auth.routes.js"
+import { authMiddleware } from "../shared/middlewares/auth.middleware.js";
+import { StatusCodes } from "http-status-codes";
 
 const router = Router();
 
 router.get("/health", (req, res) => {
-    res.status(200).json({ status: "ok" });
+    res.status(StatusCodes.OK).json({ status: "ok" });
 });
 
-
+router.use("/auth", authRouter);
 
 export default router;
