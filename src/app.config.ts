@@ -4,6 +4,7 @@ import cors from "cors";
 import { logger } from "./config/logger.config.js";
 import { globalErrorMiddleware } from "./shared/middlewares/global-error.middleware.js";
 import router from "./routes/index.js";
+import { routeNotFound } from "./shared/middlewares/not-found.middleware.js";
 
 class App {
 
@@ -23,7 +24,8 @@ class App {
     }
 
     private _configureRoutes() {
-        this.express.use(router);
+        this.express.use("/api", router);
+        this.express.use(routeNotFound);
     }
 
     private _configureErrorHandling() {

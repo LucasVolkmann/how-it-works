@@ -10,5 +10,4 @@ router.get("/health", (req, res) => {
 
 
 
-router.use(routeNotFound);
 export default router;
