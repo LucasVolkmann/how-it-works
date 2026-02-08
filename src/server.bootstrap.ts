@@ -1,8 +1,8 @@
 import http from "http";
-import app from "./app.js";
-import { env } from "./config/env.js";
+import app from "./app.config.js";
+import { env } from "./config/env.config.js";
 import "reflect-metadata";
-import { AppDataSource } from "./config/data-source.js";
+import { AppDataSource } from "./config/data-source.config.js";
 
 export class Server {
 

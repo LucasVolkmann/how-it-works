@@ -1,5 +1,5 @@
-import { Post } from "./Post.js";
-import { User } from "./User.js";
+import { Post } from "./post.entity.js";
+import { User } from "./user.entity.js";
 
 
 

@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { env } from "./env.js";
+import { env } from "./env.config.js";
 import allEntities from "../domain/entities/index.js";
 import { SnakeNamingStrategy } from "./snake-naming-strategy.config.js";
 

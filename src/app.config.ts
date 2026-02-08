@@ -1,9 +1,9 @@
 import express from "express";
 import cors from "cors";
 
-import { logger } from "./config/logger.js";
-import { globalErrorMiddleware } from "./middlewares/errors/global.js";
-import router from "./routes/router.js";
+import { logger } from "./config/logger.config.js";
+import { globalErrorMiddleware } from "./middlewares/errors/global-error.middleware.js";
+import router from "./routes/app-router.js";
 
 class App {
 

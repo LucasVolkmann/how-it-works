@@ -1,8 +1,10 @@
 import { Router } from "express";
-import utilsRouter from "./utils/index.js";
+import healthRouter from "./health.route.js";
+import { routeNotFound } from "./not-found.route.js";
 
-const publicRoutes = Router();
+const publicRouter = Router();
 
-publicRoutes.use(utilsRouter);
+publicRouter.use(healthRouter);
+publicRouter.use(routeNotFound);
 
-export default publicRoutes;
+export default publicRouter;

@@ -4,8 +4,8 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
 } from "typeorm";
-import { Post } from "./Post.js";
-import { BaseEntity } from "./BaseEntity.js";
+import { Post } from "./post.entity.js";
+import { BaseEntity } from "./base.entity.js";
 
 @Entity("users")
 export class User extends BaseEntity {
