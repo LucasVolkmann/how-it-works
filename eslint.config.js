@@ -24,7 +24,7 @@ export default defineConfig([
     rules: {
       'prettier/prettier': 'error',
 
-      'no-console': 'warn',
+      'no-console': 'off',
       eqeqeq: ['error', 'always'],
       'no-var': 'error',
       'prefer-const': 'error',
