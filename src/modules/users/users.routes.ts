@@ -1,7 +1,7 @@
-import { Router, type Request } from 'express';
-import { UsersController } from './user.controller.js';
+import { Router } from 'express';
+import { UsersController } from './users.controller.js';
 import { validateBody } from '../../shared/middlewares/validation.middleware.js';
-import { updateUserSchema } from './user.dto.js';
+import { updateUserSchema } from './users.dto.js';
 import { authMiddleware } from '../../shared/middlewares/auth.middleware.js';
 
 const router = Router();

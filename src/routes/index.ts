@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import authRouter from '../modules/auth/auth.routes.js';
-import userRouter from '../modules/user/user.routes.js';
-import { authMiddleware } from '../shared/middlewares/auth.middleware.js';
+import userRouter from '../modules/users/users.routes.js';
 import { StatusCodes } from 'http-status-codes';
 
 const router = Router();
@@ -11,6 +10,6 @@ router.get('/health', (req, res) => {
 });
 
 router.use('/auth', authRouter);
-router.use('/user', userRouter);
+router.use('/users', userRouter);
 
 export default router;

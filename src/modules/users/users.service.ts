@@ -1,7 +1,7 @@
 import createHttpError from 'http-errors';
 import { AppDataSource } from '../../config/data-source.config.js';
 import { User } from '../../domain/entities/user.entity.js';
-import type { UpdateUserDTO } from './user.dto.js';
+import type { UpdateUserDTO } from './users.dto.js';
 import { StatusCodes } from 'http-status-codes';
 
 export class UsersService {
@@ -20,7 +20,7 @@ export class UsersService {
   async getById(id: string) {
     const user = await this.userRepo.findOne({ where: { id } });
     if (!user) {
-      throw createHttpError(StatusCodes.NOT_FOUND, 'Usuário não encontrado.');
+      throw createHttpError(StatusCodes.NOT_FOUND, 'Usuário não encontrado');
     }
 
     return {
@@ -34,7 +34,7 @@ export class UsersService {
   async update(id: string, data: UpdateUserDTO) {
     const user = await this.userRepo.findOne({ where: { id } });
     if (!user) {
-      throw createHttpError(StatusCodes.NOT_FOUND, 'Usuário não encontrado.');
+      throw createHttpError(StatusCodes.NOT_FOUND, 'Usuário não encontrado');
     }
 
     Object.assign(user, data);
@@ -52,7 +52,7 @@ export class UsersService {
   async delete(id: string) {
     const user = await this.userRepo.findOne({ where: { id } });
     if (!user) {
-      throw createHttpError(StatusCodes.NOT_FOUND, 'Usuário não encontrado.');
+      throw createHttpError(StatusCodes.NOT_FOUND, 'Usuário não encontrado');
     }
 
     await this.userRepo.remove(user);
