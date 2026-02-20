@@ -3,7 +3,7 @@ import createHttpError from 'http-errors';
 import { StatusCodes } from 'http-status-codes';
 import { ValidationError } from '../errors/validation.error.js';
 
-export const globalErrorMiddleware: ErrorRequestHandler = (err, req, res, next) => {
+export const globalErrorMiddleware: ErrorRequestHandler = (err, req, res, _next) => {
   if (err instanceof ValidationError) {
     return res.status(StatusCodes.BAD_REQUEST).json({
       success: false,
