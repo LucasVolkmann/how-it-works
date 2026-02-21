@@ -21,6 +21,7 @@ export const globalErrorMiddleware: ErrorRequestHandler = (err, req, res, _next)
       code: err.code || undefined,
     });
   }
+  console.log('Unknown Error:', err);
 
   return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
     success: false,
