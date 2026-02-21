@@ -1,37 +1,24 @@
 import createHttpError from 'http-errors';
 import { AppDataSource } from '../../config/data-source.config.js';
 import { User } from '../../domain/entities/user.entity.js';
-import type { UpdateUserDTO } from './users.dto.js';
+import type { UpdateUserDTO } from './users-schemas.dto.js';
 import { StatusCodes } from 'http-status-codes';
+import type { UserOutputDTO } from './users.dto.js';
+import UsersMapper from './users.mapper.js';
 
 export class UsersService {
   private userRepo = AppDataSource.getRepository(User);
 
-  async list() {
-    const users = await this.userRepo.find();
-    return users.map((u) => ({
-      id: u.id,
-      name: u.name,
-      email: u.email,
-      createdAt: u.createdAt,
-    }));
-  }
-
-  async getById(id: string) {
+  async getById(id: string): Promise<UserOutputDTO> {
     const user = await this.userRepo.findOne({ where: { id } });
     if (!user) {
       throw createHttpError(StatusCodes.NOT_FOUND, 'Usuário não encontrado');
     }
 
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      createdAt: user.createdAt,
-    };
+    return UsersMapper.mapOutputDto(user);
   }
 
-  async update(id: string, data: UpdateUserDTO) {
+  async update(id: string, data: UpdateUserDTO): Promise<UserOutputDTO> {
     const user = await this.userRepo.findOne({ where: { id } });
     if (!user) {
       throw createHttpError(StatusCodes.NOT_FOUND, 'Usuário não encontrado');
@@ -41,12 +28,7 @@ export class UsersService {
 
     await this.userRepo.save(user);
 
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      createdAt: user.createdAt,
-    };
+    return UsersMapper.mapOutputDto(user);
   }
 
   async delete(id: string) {
