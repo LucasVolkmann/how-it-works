@@ -1,31 +1,47 @@
 import { AppDataSource } from '../../config/data-source.config.js';
 import { Post } from '../../domain/entities/post.entity.js';
 import { User } from '../../domain/entities/user.entity.js';
-import type { CreatePostDTO, UpdatePostDTO } from './posts.dto.js';
+import type { CreatePostDTO, UpdatePostDTO } from './posts-schemas.dto.js';
 import { slugify } from '../../shared/utils/slug.js';
 import createHttpError from 'http-errors';
 import { StatusCodes } from 'http-status-codes';
+import type { PostListItemOutputDto } from './posts.dtos.js';
+import PostsMapper from './posts.mapper.js';
 
 export class PostsService {
   private postRepo = AppDataSource.getRepository(Post);
   private userRepo = AppDataSource.getRepository(User);
 
-  async listPublished() {
+  async listPublished(): Promise<PostListItemOutputDto[]> {
+    const outputAttributesArray: (keyof PostListItemOutputDto)[] = [
+      'title',
+      'content',
+      'slug',
+      'createdAt',
+      'updatedAt',
+    ];
     const posts = await this.postRepo.find({
       where: { published: true },
       order: { createdAt: 'DESC' },
+      select: outputAttributesArray,
     });
-    return posts;
+    return PostsMapper.mapListItemOutputDtoArray(posts);
   }
 
-  async getBySlug(slug: string) {
-    const post = await this.postRepo.findOne({ where: { slug } });
+  async getBySlug(slug: string): Promise<PostListItemOutputDto> {
+    const post = await this.postRepo.findOne({
+      where: { slug },
+      relations: ['author'],
+    });
     if (!post)
       throw createHttpError(StatusCodes.NOT_FOUND, 'Postagem não encontrada');
-    return post;
+    return PostsMapper.mapCompleteOutputDto(post);
   }
 
-  async create(authorId: string, data: CreatePostDTO) {
+  async create(
+    authorId: string,
+    data: CreatePostDTO,
+  ): Promise<PostListItemOutputDto> {
     const author = await this.userRepo.findOne({ where: { id: authorId } });
     if (!author)
       throw createHttpError(StatusCodes.NOT_FOUND, 'Autor não encontrado');
@@ -49,10 +65,14 @@ export class PostsService {
     });
 
     await this.postRepo.save(post);
-    return post;
+    return PostsMapper.mapCompleteOutputDto(post);
   }
 
-  async update(authorId: string, id: string, data: UpdatePostDTO) {
+  async update(
+    authorId: string,
+    id: string,
+    data: UpdatePostDTO,
+  ): Promise<PostListItemOutputDto> {
     const post = await this.postRepo.findOne({
       where: { id },
       relations: ['author'],
@@ -82,7 +102,7 @@ export class PostsService {
     Object.assign(post, data);
 
     await this.postRepo.save(post);
-    return post;
+    return PostsMapper.mapCompleteOutputDto(post);
   }
 
   async delete(authorId: string, id: string) {

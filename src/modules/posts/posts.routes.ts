@@ -10,7 +10,7 @@ import {
   getBySlugParamsSchema,
   paramsWithIdSchema,
   updatePostSchema,
-} from './posts.dto.js';
+} from './posts-schemas.dto.js';
 
 const router = Router();
 const controller = new PostsController();
