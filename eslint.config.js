@@ -6,7 +6,13 @@ import tsParser from '@typescript-eslint/parser';
 
 export default defineConfig([
   {
-    ignores: ['node_modules/**', 'dist/**', 'build/**', 'coverage/**'],
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      'build/**',
+      'coverage/**',
+      'vitest.config.ts',
+    ],
 
     languageOptions: {
       ecmaVersion: 2022,
@@ -34,7 +40,13 @@ export default defineConfig([
 
   {
     files: ['**/*.ts'],
-    ignores: ['node_modules/**', 'dist/**', 'build/**', 'coverage/**'],
+    ignores: [
+      'node_modules/**',
+      'dist/**',
+      'build/**',
+      'coverage/**',
+      'vitest.config.ts',
+    ],
     languageOptions: {
       parser: tsParser,
       parserOptions: {

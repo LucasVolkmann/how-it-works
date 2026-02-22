@@ -11,7 +11,8 @@
     "clean": "rimraf dist",
     "build": "npm run clean && tsc",
     "start": "node dist/server.bootstrap.js",
-    "dev": "nodemon"
+    "dev": "nodemon",
+    "test": "vitest"
   },
   "repository": {
     "type": "git",
@@ -54,6 +55,7 @@
     "nodemon": "^3.1.11",
     "prettier": "^3.8.1",
     "rimraf": "^6.1.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   }
 }
