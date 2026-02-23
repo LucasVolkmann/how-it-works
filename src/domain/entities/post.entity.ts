@@ -1,4 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import type { User as UserType } from './user.entity.js';
 import { User } from './user.entity.js';
 import { BaseEntity } from './base.entity.js';
 
@@ -20,5 +21,5 @@ export class Post extends BaseEntity {
   published!: boolean;
 
   @ManyToOne(() => User, (user) => user.posts)
-  author!: User;
+  author!: UserType;
 }
