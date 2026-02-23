@@ -1,5 +1,5 @@
-import { AppDataSource } from '../../config/data-source.config.js';
-import { User } from '../../domain/entities/user.entity.js';
+import type { Repository } from 'typeorm';
+import type { User } from '../../domain/entities/user.entity.js';
 import { hashPassword, comparePassword } from '../../shared/utils/password.utils.js';
 import { signToken } from '../../shared/utils/jwt.utils.js';
 import type { LoginDTO, RegisterDTO } from './auth.dto.js';
@@ -7,7 +7,7 @@ import createHttpError from 'http-errors';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 
 export class AuthService {
-  private userRepo = AppDataSource.getRepository(User);
+  constructor(private userRepo: Repository<User>) {}
 
   async register(data: RegisterDTO) {
     const existing = await this.userRepo.findOne({
