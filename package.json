@@ -12,7 +12,8 @@
     "build": "npm run clean && tsc",
     "start": "node dist/server.bootstrap.js",
     "dev": "nodemon",
-    "test": "vitest"
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "repository": {
     "type": "git",
