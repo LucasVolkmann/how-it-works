@@ -1,4 +1,3 @@
-import { AppDataSource } from '../../config/data-source.config.js';
 import { Post } from '../../domain/entities/post.entity.js';
 import { User } from '../../domain/entities/user.entity.js';
 import type { CreatePostDTO, UpdatePostDTO } from './posts-schemas.dto.js';
@@ -7,10 +6,13 @@ import createHttpError from 'http-errors';
 import { StatusCodes } from 'http-status-codes';
 import type { CompletePostOutputDTO, PostListItemOutputDTO } from './posts.dto.js';
 import PostsMapper from './posts.mapper.js';
+import type { Repository } from 'typeorm';
 
 export class PostsService {
-  private postRepo = AppDataSource.getRepository(Post);
-  private userRepo = AppDataSource.getRepository(User);
+  constructor(
+    private postRepo: Repository<Post>,
+    private userRepo: Repository<User>,
+  ) {}
 
   async listPublished(): Promise<PostListItemOutputDTO[]> {
     const outputAttributesArray: (keyof PostListItemOutputDTO)[] = [

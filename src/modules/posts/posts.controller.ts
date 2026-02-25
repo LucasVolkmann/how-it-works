@@ -3,8 +3,13 @@ import { PostsService } from './posts.service.js';
 import type { AuthRequest } from '../../shared/middlewares/auth.middleware.js';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import createHttpError from 'http-errors';
+import { AppDataSource } from '../../config/data-source.config.js';
+import { Post } from '../../domain/entities/post.entity.js';
+import { User } from '../../domain/entities/user.entity.js';
 
-const postsService = new PostsService();
+const postRepository = AppDataSource.getRepository(Post);
+const userRepository = AppDataSource.getRepository(User);
+const postsService = new PostsService(postRepository, userRepository);
 
 interface IGetBySlugParams {
   slug?: string;
