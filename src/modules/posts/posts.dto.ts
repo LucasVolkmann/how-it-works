@@ -1,4 +1,4 @@
-export interface PostListItemOutputDto {
+export interface PostListItemOutputDTO {
   createdAt: Date;
   updatedAt: Date;
   content: string;
@@ -6,7 +6,7 @@ export interface PostListItemOutputDto {
   slug: string;
 }
 
-export interface CompletePostOutputDto {
+export interface CompletePostOutputDTO {
   createdAt: Date;
   updatedAt: Date;
   content: string;

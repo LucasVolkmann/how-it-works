@@ -1,8 +1,8 @@
 import type { Post } from '../../domain/entities/post.entity.js';
-import type { CompletePostOutputDto, PostListItemOutputDto } from './posts.dtos.js';
+import type { CompletePostOutputDTO, PostListItemOutputDTO } from './posts.dto.js';
 
 export default class PostsMapper {
-  static mapListItemOutputDto(post: Post): PostListItemOutputDto {
+  static mapListItemOutputDTO(post: Post): PostListItemOutputDTO {
     return {
       createdAt: post.createdAt,
       updatedAt: post.updatedAt,
@@ -11,10 +11,10 @@ export default class PostsMapper {
       slug: post.slug,
     };
   }
-  static mapListItemOutputDtoArray(posts: Post[]): PostListItemOutputDto[] {
-    return posts.map(PostsMapper.mapListItemOutputDto);
+  static mapListItemOutputDTOArray(posts: Post[]): PostListItemOutputDTO[] {
+    return posts.map(PostsMapper.mapListItemOutputDTO);
   }
-  static mapCompleteOutputDto(post: Post): CompletePostOutputDto {
+  static mapCompleteOutputDTO(post: Post): CompletePostOutputDTO {
     if (!post.author) throw new Error('Post without author to return.');
     return {
       createdAt: post.createdAt,

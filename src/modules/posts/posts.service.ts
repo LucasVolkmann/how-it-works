@@ -5,15 +5,15 @@ import type { CreatePostDTO, UpdatePostDTO } from './posts-schemas.dto.js';
 import { slugify } from '../../shared/utils/slug.js';
 import createHttpError from 'http-errors';
 import { StatusCodes } from 'http-status-codes';
-import type { PostListItemOutputDto } from './posts.dtos.js';
+import type { CompletePostOutputDTO, PostListItemOutputDTO } from './posts.dto.js';
 import PostsMapper from './posts.mapper.js';
 
 export class PostsService {
   private postRepo = AppDataSource.getRepository(Post);
   private userRepo = AppDataSource.getRepository(User);
 
-  async listPublished(): Promise<PostListItemOutputDto[]> {
-    const outputAttributesArray: (keyof PostListItemOutputDto)[] = [
+  async listPublished(): Promise<PostListItemOutputDTO[]> {
+    const outputAttributesArray: (keyof PostListItemOutputDTO)[] = [
       'title',
       'content',
       'slug',
@@ -25,23 +25,23 @@ export class PostsService {
       order: { createdAt: 'DESC' },
       select: outputAttributesArray,
     });
-    return PostsMapper.mapListItemOutputDtoArray(posts);
+    return PostsMapper.mapListItemOutputDTOArray(posts);
   }
 
-  async getBySlug(slug: string): Promise<PostListItemOutputDto> {
+  async getBySlug(slug: string): Promise<PostListItemOutputDTO> {
     const post = await this.postRepo.findOne({
       where: { slug },
       relations: ['author'],
     });
     if (!post)
       throw createHttpError(StatusCodes.NOT_FOUND, 'Postagem não encontrada');
-    return PostsMapper.mapCompleteOutputDto(post);
+    return PostsMapper.mapCompleteOutputDTO(post);
   }
 
   async create(
     authorId: string,
     data: CreatePostDTO,
-  ): Promise<PostListItemOutputDto> {
+  ): Promise<CompletePostOutputDTO> {
     const author = await this.userRepo.findOne({ where: { id: authorId } });
     if (!author)
       throw createHttpError(StatusCodes.NOT_FOUND, 'Autor não encontrado');
@@ -65,14 +65,14 @@ export class PostsService {
     });
 
     await this.postRepo.save(post);
-    return PostsMapper.mapCompleteOutputDto(post);
+    return PostsMapper.mapCompleteOutputDTO(post);
   }
 
   async update(
     authorId: string,
     id: string,
     data: UpdatePostDTO,
-  ): Promise<PostListItemOutputDto> {
+  ): Promise<CompletePostOutputDTO> {
     const post = await this.postRepo.findOne({
       where: { id },
       relations: ['author'],
@@ -102,7 +102,7 @@ export class PostsService {
     Object.assign(post, data);
 
     await this.postRepo.save(post);
-    return PostsMapper.mapCompleteOutputDto(post);
+    return PostsMapper.mapCompleteOutputDTO(post);
   }
 
   async delete(authorId: string, id: string) {
