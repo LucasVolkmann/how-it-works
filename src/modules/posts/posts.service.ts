@@ -1,5 +1,5 @@
-import { Post } from '../../domain/entities/post.entity.js';
-import { User } from '../../domain/entities/user.entity.js';
+import type { Post } from '../../domain/entities/post.entity.js';
+import type { User } from '../../domain/entities/user.entity.js';
 import type { CreatePostDTO, UpdatePostDTO } from './posts-schemas.dto.js';
 import { slugify } from '../../shared/utils/slug.js';
 import createHttpError from 'http-errors';
