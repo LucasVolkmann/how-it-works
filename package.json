@@ -9,7 +9,7 @@
     "format": "prettier . --write",
     "format:check": "prettier . --check",
     "clean": "rimraf dist",
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
     "start": "node dist/server.bootstrap.js",
     "dev": "nodemon",
     "test": "vitest run",
