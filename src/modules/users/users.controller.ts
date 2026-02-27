@@ -3,8 +3,11 @@ import { UsersService } from './users.service.js';
 import { ReasonPhrases, StatusCodes } from 'http-status-codes';
 import type { AuthRequest } from '../../shared/middlewares/auth.middleware.js';
 import createHttpError from 'http-errors';
+import { AppDataSource } from '../../config/data-source.config.js';
+import { User } from '../../domain/entities/user.entity.js';
 
-const usersService = new UsersService();
+const userRepository = AppDataSource.getRepository(User);
+const usersService = new UsersService(userRepository);
 
 export class UsersController {
   async getById(req: AuthRequest, res: Response) {

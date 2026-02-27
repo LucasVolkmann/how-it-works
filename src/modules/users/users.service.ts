@@ -1,13 +1,13 @@
 import createHttpError from 'http-errors';
-import { AppDataSource } from '../../config/data-source.config.js';
-import { User } from '../../domain/entities/user.entity.js';
+import type { User } from '../../domain/entities/user.entity.js';
 import type { UpdateUserDTO } from './users-schemas.dto.js';
 import { StatusCodes } from 'http-status-codes';
 import type { UserOutputDTO } from './users.dto.js';
 import UsersMapper from './users.mapper.js';
+import type { Repository } from 'typeorm';
 
 export class UsersService {
-  private userRepo = AppDataSource.getRepository(User);
+  constructor(private userRepo: Repository<User>) {}
 
   async getById(id: string): Promise<UserOutputDTO> {
     const user = await this.userRepo.findOne({ where: { id } });
