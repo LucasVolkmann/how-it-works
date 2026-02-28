@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, vi, type MockedFunction } from 'vitest';
+import { StatusCodes } from 'http-status-codes';
 
 import { PostsService } from './posts.service.js';
 
@@ -172,6 +173,37 @@ describe('PostsService — update (extended)', () => {
       await service.update('author-id', post.id, { title: 'Same Title' });
 
       expect(mockedSlugify).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('delete', () => {
+    it('should reject deletion when user is not the author', async () => {
+      const post = makePost();
+      const wrongUserId = 'wrong-mock-user-id';
+
+      mockPostRepo.findOne.mockResolvedValue(post);
+
+      await expect(service.delete(wrongUserId, post.id)).rejects.toMatchObject({
+        status: StatusCodes.FORBIDDEN,
+      });
+    });
+    it('should reject deletion when post not found', async () => {
+      mockPostRepo.findOne.mockResolvedValue(null);
+
+      await expect(
+        service.delete('mocked-author-id', 'mocked-post-id'),
+      ).rejects.toMatchObject({
+        status: StatusCodes.NOT_FOUND,
+      });
+    });
+    it('should call repository delete when post exist and it is from same author', async () => {
+      const post = makePost();
+
+      mockPostRepo.findOne.mockResolvedValue(post);
+
+      await service.delete(post.author.id, post.id);
+
+      expect(mockPostRepo.remove).toHaveBeenCalledWith(post);
     });
   });
 });
