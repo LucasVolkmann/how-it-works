@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 import { PostsService } from './posts.service.js';
 
-vi.mock('../../shared/utils/slug.js', () => ({
+vi.mock('../../shared/utils/slug.utils.js', () => ({
   slugify: vi.fn(),
 }));
 
@@ -14,7 +14,7 @@ vi.mock('./posts.mapper.js', () => ({
   },
 }));
 
-import { slugify } from '../../shared/utils/slug.js';
+import { slugify } from '../../shared/utils/slug.utils.js';
 import PostsMapper from './posts.mapper.js';
 
 const mockedSlugify = slugify as MockedFunction<typeof slugify>;
@@ -42,6 +42,8 @@ describe('PostsService — update (extended)', () => {
   let mockUserRepo: any;
 
   beforeEach(() => {
+    vi.clearAllMocks();
+
     mockPostRepo = {
       find: vi.fn(),
       findOne: vi.fn(),
@@ -55,8 +57,6 @@ describe('PostsService — update (extended)', () => {
     };
 
     service = new PostsService(mockPostRepo, mockUserRepo);
-
-    vi.clearAllMocks();
   });
 
   describe('field mutation', () => {
@@ -93,9 +93,7 @@ describe('PostsService — update (extended)', () => {
   describe('slug regeneration on title change', () => {
     it('should regenerate slug when title changes and new slug is free', async () => {
       const post = makePost({ title: 'Old Title', slug: 'old-title' });
-      mockPostRepo.findOne
-        .mockResolvedValueOnce(post) // findOne for the post itself
-        .mockResolvedValueOnce(null); // slug availability check: free
+      mockPostRepo.findOne.mockResolvedValueOnce(post).mockResolvedValueOnce(null);
       mockedSlugify.mockReturnValue('new-title');
       mockPostRepo.save.mockResolvedValue(undefined);
       mockedMapComplete.mockReturnValue({ id: post.id } as any);
@@ -113,9 +111,9 @@ describe('PostsService — update (extended)', () => {
       const conflictingPost = makePost({ id: 'other-post-id', slug: 'new-title' });
 
       mockPostRepo.findOne
-        .mockResolvedValueOnce(post) // fetch the post to update
-        .mockResolvedValueOnce(conflictingPost) // 'new-title' is taken by another post
-        .mockResolvedValueOnce(null); // 'new-title-1' is free
+        .mockResolvedValueOnce(post)
+        .mockResolvedValueOnce(conflictingPost)
+        .mockResolvedValueOnce(null);
 
       mockedSlugify.mockReturnValue('new-title');
       mockPostRepo.save.mockResolvedValue(undefined);
