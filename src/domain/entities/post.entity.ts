@@ -8,16 +8,16 @@ export class Post extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   title!: string;
 
   @Column({ type: 'text' })
   content!: string;
 
-  @Column({ unique: true })
+  @Column({ type: 'varchar', unique: true })
   slug!: string;
 
-  @Column({ default: false })
+  @Column({ type: 'boolean', default: false })
   published!: boolean;
 
   @ManyToOne(() => User, (user) => user.posts)
