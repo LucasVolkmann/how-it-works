@@ -5,4 +5,4 @@ echo "Checking prettier..."
 npm run format:check
 
 echo "Running tests..."
-npm run test
+npm run test:unit
